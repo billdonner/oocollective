@@ -1,0 +1,331 @@
+<title>OO Pickleball Collective — Week of 31 August 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root {
+  --ground: #F6F8F7;
+  --raised: #FFFFFF;
+  --ink: #0E2E38;
+  --ink-soft: #4A6068;
+  --line: #CBD6D5;
+  --accent: #0E7C86;
+  --limit: #A85A17;
+  --room: #4C7A44;
+  --seat-empty: #DEE6E5;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0C1A1F;
+    --raised: #12262D;
+    --ink: #E4EDEC;
+    --ink-soft: #93A8AD;
+    --line: #24424B;
+    --accent: #4FB3BC;
+    --limit: #D89448;
+    --room: #8FBF83;
+    --seat-empty: #1E3A42;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0C1A1F;
+  --raised: #12262D;
+  --ink: #E4EDEC;
+  --ink-soft: #93A8AD;
+  --line: #24424B;
+  --accent: #4FB3BC;
+  --limit: #D89448;
+  --room: #8FBF83;
+  --seat-empty: #1E3A42;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  max-width: 62rem;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system,
+               "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.masthead { display: flex; flex-direction: column; gap: 0.4rem; }
+.eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 650;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4.5vw, 2.3rem);
+  letter-spacing: -0.022em;
+  font-weight: 680;
+  text-wrap: balance;
+}
+.week { margin: 0; color: var(--ink-soft); font-size: 1rem; }
+
+.bookers { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.bookers ul {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.bookers li {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.12rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+.handoff { display: flex; flex-direction: column; gap: 0.6rem; }
+.handoff-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+}
+.copy {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 1rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+}
+.copy:hover { background: var(--accent); color: var(--raised); }
+.copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.copy.done { background: var(--accent); color: var(--raised); }
+
+.scroller { overflow-x: auto; border-radius: 0.4rem; }
+pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+               Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  white-space: pre;
+}
+
+.week-grid { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.day {
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: 0.4rem;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.day.at-limit { border-left-color: var(--limit); }
+
+.day-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+}
+.day h3 {
+  margin: 0; font-size: 1.02rem; font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.day .date { color: var(--ink-soft); font-weight: 400; font-size: 0.88rem; }
+.time {
+  margin: 0; color: var(--ink-soft); font-size: 0.88rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.meter { display: flex; gap: 3px; }
+.seat { height: 6px; flex: 1 1 0; border-radius: 1px; background: var(--seat-empty); }
+.seat.taken { background: var(--accent); }
+.seat.beyond { background: var(--limit); }
+
+.count { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+.count strong { color: var(--ink); font-size: 0.95rem; }
+.state { margin-left: 0.15rem; }
+.state.limit { color: var(--limit); font-weight: 600; }
+.state.room { color: var(--room); }
+
+.players {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+}
+.players li {
+  font-size: 0.86rem;
+  padding: 0.1rem 0.55rem;
+  border-radius: 0.3rem;
+  background: var(--ground);
+  border: 1px solid var(--line);
+}
+
+footer { color: var(--ink-soft); font-size: 0.82rem; }
+footer p { margin: 0; max-width: 60ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<header class="masthead">
+  <p class="eyebrow">Final allocation · input closed at Friday noon</p>
+  <h1>OO Pickleball Collective</h1>
+  <p class="week">Week of 31 August 2026</p>
+  <div class="bookers">
+    <h2 class="label">Bookers</h2>
+    <ul>
+      <li>Bill D.</li>
+            <li>Donna</li>
+            <li>Julie</li>
+            <li>Liz</li>
+            <li>Melissa</li>
+            <li>Nancy</li>
+            <li>Paula</li>
+    </ul>
+  </div>
+</header>
+
+
+<section class="week-grid" aria-label="The week, day by day">
+  <article class="day at-limit">
+    <div class="day-head">
+      <h3>Monday <span class="date">31 August</span></h3>
+      <p class="time">9:00–10:30</p>
+    </div>
+    <div class="meter" role="img"
+         aria-label="5 of 4 seats">
+      <span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat beyond"></span>
+    </div>
+    <p class="count"><strong>5</strong> of 4 <span class="state limit">1 rotates</span></p>
+    <ul class="players">
+      <li>Don B.</li>
+                  <li>Lexy</li>
+                  <li>Mimi</li>
+                  <li>Nancy</li>
+                  <li>Paula</li>
+    </ul>
+  </article>
+  <article class="day at-limit">
+    <div class="day-head">
+      <h3>Tuesday <span class="date">1 September</span></h3>
+      <p class="time">10:00–11:30</p>
+    </div>
+    <div class="meter" role="img"
+         aria-label="5 of 4 seats">
+      <span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat beyond"></span>
+    </div>
+    <p class="count"><strong>5</strong> of 4 <span class="state limit">1 rotates</span></p>
+    <ul class="players">
+      <li>Barb</li>
+                  <li>Bob</li>
+                  <li>Donna</li>
+                  <li>Jeanne</li>
+                  <li>Liz</li>
+    </ul>
+  </article>
+  <article class="day">
+    <div class="day-head">
+      <h3>Wednesday <span class="date">2 September</span></h3>
+      <p class="time">9:00–10:30</p>
+    </div>
+    <div class="meter" role="img"
+         aria-label="7 of 8 seats">
+      <span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat spare"></span>
+    </div>
+    <p class="count"><strong>7</strong> of 8 <span class="state">full on seats</span></p>
+    <ul class="players">
+      <li>Don B.</li>
+                  <li>Donna</li>
+                  <li>Julie</li>
+                  <li>Karen</li>
+                  <li>Lexy</li>
+                  <li>Ray</li>
+                  <li>Vlad</li>
+    </ul>
+  </article>
+  <article class="day">
+    <div class="day-head">
+      <h3>Thursday <span class="date">3 September</span></h3>
+      <p class="time">9:00–10:30</p>
+    </div>
+    <div class="meter" role="img"
+         aria-label="4 of 4 seats">
+      <span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span>
+    </div>
+    <p class="count"><strong>4</strong> of 4 <span class="state">full on seats</span></p>
+    <ul class="players">
+      <li>Ellen</li>
+                  <li>Julie</li>
+                  <li>Melissa</li>
+                  <li>Ray</li>
+    </ul>
+  </article>
+  <article class="day at-limit">
+    <div class="day-head">
+      <h3>Friday <span class="date">4 September</span></h3>
+      <p class="time">9:00–10:30</p>
+    </div>
+    <div class="meter" role="img"
+         aria-label="5 of 4 seats">
+      <span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat taken"></span><span class="seat beyond"></span>
+    </div>
+    <p class="count"><strong>5</strong> of 4 <span class="state limit">1 rotates</span></p>
+    <ul class="players">
+      <li>Bob</li>
+                  <li>Don B.</li>
+                  <li>Karen</li>
+                  <li>Melissa</li>
+                  <li>Steve</li>
+    </ul>
+  </article>
+</section>
+
+<footer>
+  <p>Read from docs/SCHEDULE-LOG.md. The record is the schedule log;
+     this page is a view of it.</p>
+</footer>
+
+<script>
+const button = document.getElementById("copy");
+const block = document.getElementById("block");
+button.addEventListener("click", async () => {
+  const text = block.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const field = document.createElement("textarea");
+    field.value = text;
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    field.remove();
+  }
+  button.textContent = "Copied";
+  button.classList.add("done");
+  setTimeout(() => {
+    button.textContent = "Copy";
+    button.classList.remove("done");
+  }, 1600);
+});
+</script>
